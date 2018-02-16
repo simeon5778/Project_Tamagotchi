@@ -15,7 +15,8 @@ public class NewCreatureActivity extends AppCompatActivity {
 
     public void goToStartScreen(View view) {
 
-        Intent intent = new Intent(this, StartActivity.class);
+        Intent intent
+                = new Intent(this, StartActivity.class);
         startActivity(intent);
     }
 
