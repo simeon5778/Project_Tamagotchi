@@ -52,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/editText2"
         android:layout_centerVertical="true"
+        android:onClick="setGenderFemale"
         android:text="FEMALE" />
 
     <Button
@@ -61,6 +62,7 @@
         android:layout_alignBaseline="@+id/buttonFemale"
         android:layout_alignBottom="@+id/buttonFemale"
         android:layout_alignEnd="@+id/editText2"
+        android:onClick="setGenderMale"
         android:text="MALE" />
 
 </RelativeLayout>

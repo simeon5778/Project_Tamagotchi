@@ -12,16 +12,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="120dp"
-        android:text="Continue" />
+        android:layout_marginBottom="140dp"
+        android:background="@drawable/buttonshape"
+        android:text="Continue"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/buttonCreature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/buttonshape"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="90dp"
         android:onClick="goToCreateCreatureActivity"
         android:text="New Creature" />
 
@@ -29,6 +32,7 @@
         android:id="@+id/buttonExit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/buttonshape"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
