@@ -6,44 +6,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 public class NewCreatureActivity extends AppCompatActivity {
 
+    Creature creature;
+    EditText nameField;
 
-    Button buttonMALE; //= (Button) findViewById(R.id.buttonMale);
-    Button buttonFEMALE;// = (Button) findViewById(R.id.buttonFemale);
-
-    private boolean genderMale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_creature);
-        buttonMALE = (Button) findViewById(R.id.buttonMale);
-        buttonFEMALE = (Button) findViewById(R.id.buttonFemale);
+        nameField = (EditText) findViewById(R.id.nameField);
+
     }
 
-    public void goToStartScreen(View view) {
+    public void startGame(View view) {
 
-        Intent intent = new Intent(this, StartActivity.class);
+        creature = new Creature(nameField.getText().toString());
+
+        Intent intent = new Intent(this, GameSession.class);
         startActivity(intent);
-    }
 
-    public void setGenderMale(View view) {
-        genderMale = true;
-        buttonMALE.setBackgroundColor(Color.rgb(30,145,88));
-        buttonFEMALE.setBackgroundColor(Color.rgb(217,215,217));
 
 
     }
 
-    public void setGenderFemale(View view) {
-        genderMale = false;
-        buttonFEMALE.setBackgroundColor(Color.rgb(30,145,88));
-        buttonMALE.setBackgroundColor(Color.rgb(217,215,217));
 
-    }
+
 
 
 }
