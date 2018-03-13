@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +14,6 @@ public class GameSession extends AppCompatActivity {
 
     SharedPreferences sharedPref;
     FragmentManager manager;
-
-
     SharedPreferences.Editor editor;
 
     ProgressBar healthBar;
@@ -37,13 +34,14 @@ public class GameSession extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_session);
 
+        sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
         manager = getFragmentManager();
+
+
         healthBar = (ProgressBar) findViewById(R.id.healthBar);
         hungerBar = (ProgressBar) findViewById(R.id.hungerBar);
         happinessBar = (ProgressBar) findViewById(R.id.happinessBar);
-
-        sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
 
 
         name = sharedPref.getString("name", "");
@@ -76,15 +74,10 @@ public class GameSession extends AppCompatActivity {
     }
 
 
-
-
-
     public void chooseAnimationAndStartIt() {
+
         IdleAnimation idleAnimation = new IdleAnimation();
-        FragmentTransaction transaction=manager.beginTransaction();
-
-        IdleAnimation idleAnimation1 = new IdleAnimation();
-
+        FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.framelayout,idleAnimation,"Idleanimation");
 
         transaction.commit();
