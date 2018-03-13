@@ -1,7 +1,10 @@
 package com.example.tamagotchi.project_tamagotchi;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +14,9 @@ import android.widget.ProgressBar;
 public class GameSession extends AppCompatActivity {
 
     SharedPreferences sharedPref;
+    FragmentManager manager;
+
+
     SharedPreferences.Editor editor;
 
     ProgressBar healthBar;
@@ -31,6 +37,7 @@ public class GameSession extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_session);
 
+        manager = getFragmentManager();
         healthBar = (ProgressBar) findViewById(R.id.healthBar);
         hungerBar = (ProgressBar) findViewById(R.id.hungerBar);
         happinessBar = (ProgressBar) findViewById(R.id.happinessBar);
@@ -47,9 +54,8 @@ public class GameSession extends AppCompatActivity {
         health = sharedPref.getInt("health", 0);
         happiness = sharedPref.getInt("happiness", 0);
 
-        healthBar.setProgress(health);
-        hungerBar.setProgress(hunger);
-        happinessBar.setProgress(happiness);
+        chooseAnimationAndStartIt();
+
 
 
     }
@@ -72,6 +78,18 @@ public class GameSession extends AppCompatActivity {
 
 
 
+
+    public void chooseAnimationAndStartIt() {
+        IdleAnimation idleAnimation = new IdleAnimation();
+        FragmentTransaction transaction=manager.beginTransaction();
+
+        IdleAnimation idleAnimation1 = new IdleAnimation();
+
+        transaction.add(R.id.framelayout,idleAnimation,"Idleanimation");
+
+        transaction.commit();
+
+    }
 
 
 }

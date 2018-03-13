@@ -95,6 +95,7 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/framelayout"
         android:layout_width="match_parent"
         android:layout_height="370dp"
         android:layout_alignParentStart="true"
