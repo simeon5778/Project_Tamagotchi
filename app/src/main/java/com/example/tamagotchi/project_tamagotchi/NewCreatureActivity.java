@@ -48,7 +48,7 @@ public class NewCreatureActivity extends AppCompatActivity {
 
         if (overwrite) {
 
-            creature = new Creature("hest");
+            creature = new Creature(nameField.getText().toString());
 
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("name", creature.getName().toString());

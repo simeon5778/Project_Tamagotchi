@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.tamagotchi.project_tamagotchi.GameSession">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -15,30 +15,44 @@
         android:orientation="vertical">
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/healthBar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="250dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="false"
+            android:max="20"
+            android:min="0"
+            android:progress="15"/>
 
         <ProgressBar
-            android:id="@+id/progressBar2"
+            android:id="@+id/hungerBar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="250dp"
+            android:layout_height="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/healthBar"
+            android:indeterminate="false"
+            android:max="20"
+            android:min="0"
+            android:progress="5"/>
 
         <ProgressBar
-            android:id="@+id/progressBar3"
+            android:id="@+id/happinessBar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="250dp"
+            android:layout_height="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/hungerBar"
+            android:indeterminate="false"
+            android:max="20"
+            android:min="0"
+            android:progress="13"/>
 
-        <ProgressBar
-            android:id="@+id/progressBar4"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
-    </LinearLayout>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/bottomLayout"
@@ -52,8 +66,9 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@drawable/buttonshape"
             android:layout_weight="1"
+            android:background="@drawable/buttonshape"
+            android:onClick="feed"
             android:text="Feed" />
 
         <Button
