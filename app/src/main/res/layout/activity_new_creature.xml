@@ -12,15 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/nameField"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
         android:text="Name:" />
 
     <EditText
         android:id="@+id/nameField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonStart"
+
+        android:layout_above="@+id/overwriteCheckBox"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="31dp"
+        android:layout_marginBottom="17dp"
         android:ems="10"
         android:inputType="textPersonName" />
 
@@ -30,12 +32,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="39dp"
+        android:layout_marginBottom="18dp"
         android:layout_weight="1"
         android:background="@drawable/buttonshape"
         android:onClick="startGame"
         android:text="Start" />
 
+    <CheckBox
+        android:id="@+id/overwriteCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonStart"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="27dp"
+        android:text="Creating a new creature will overwrite your current one!" />
 
 
 </RelativeLayout>
