@@ -1,7 +1,10 @@
 package com.example.tamagotchi.project_tamagotchi;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -9,6 +12,9 @@ import android.os.Bundle;
 public class GameSession extends AppCompatActivity {
 
     SharedPreferences sharedPref;
+    FragmentManager manager;
+
+
 
 
     @Override
@@ -16,6 +22,7 @@ public class GameSession extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_session);
 
+        manager = getFragmentManager();
         sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
 
 
@@ -27,6 +34,8 @@ public class GameSession extends AppCompatActivity {
         int health = sharedPref.getInt("health", 0);
         int happiness = sharedPref.getInt("happiness", 0);
 
+        chooseAnimationAndStartIt();
+
 
 
     }
@@ -34,6 +43,18 @@ public class GameSession extends AppCompatActivity {
     //Här när man trycker bakåt så vill man spara alla variabler ifrån vårat creature? Singleton krävs?
 
 
+
+    public void chooseAnimationAndStartIt() {
+        IdleAnimation idleAnimation = new IdleAnimation();
+        FragmentTransaction transaction=manager.beginTransaction();
+
+        IdleAnimation idleAnimation1 = new IdleAnimation();
+
+        transaction.add(R.id.framelayout,idleAnimation,"Idleanimation");
+
+        transaction.commit();
+
+    }
 
 
 }
