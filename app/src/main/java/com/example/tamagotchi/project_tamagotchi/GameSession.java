@@ -4,10 +4,14 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class GameSession extends AppCompatActivity {
@@ -27,12 +31,68 @@ public class GameSession extends AppCompatActivity {
     int hunger;
     int health;
     int happiness;
+    int ableToFeed = 0;
+    int ableToPlay = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_session);
+
+        initiateStartup();
+
+        creatureDegeneration();
+
+        chooseAnimationAndStartIt();
+
+
+    }
+
+    public void feed(View view) {
+
+        if (hunger < 20 && ableToFeed < 5) {
+
+            ableToFeed++;
+
+            hunger++;
+
+            hungerBar.setProgress(hunger);
+
+            editor.putInt("hunger", hunger);
+            editor.apply();
+        }
+
+    }
+
+    public void play(View view) {
+
+        if (happiness < 20 && ableToPlay < 5) {
+
+            ableToPlay++;
+
+            happiness++;
+
+            happinessBar.setProgress(happiness);
+
+            editor.putInt("happiness", happiness);
+            editor.apply();
+        }
+
+    }
+
+
+    public void chooseAnimationAndStartIt() {
+
+        IdleAnimation idleAnimation = new IdleAnimation();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.framelayout,idleAnimation,"Idleanimation");
+
+        transaction.commit();
+
+    }
+
+    public void initiateStartup() {
 
         sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
@@ -52,35 +112,83 @@ public class GameSession extends AppCompatActivity {
         health = sharedPref.getInt("health", 0);
         happiness = sharedPref.getInt("happiness", 0);
 
-        chooseAnimationAndStartIt();
-
-
-
-    }
-
-    public void feed(View view) {
-
-        hunger = hunger + 1;
-
         hungerBar.setProgress(hunger);
+        healthBar.setProgress(health);
+        happinessBar.setProgress(happiness);
 
-        editor.putInt("hunger",hunger);
-        editor.apply();
 
     }
 
-    public void play() {
+    public void creatureDegeneration() {
 
-    }
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
 
+        TimerTask timerTask = new TimerTask() {
 
-    public void chooseAnimationAndStartIt() {
+            @Override
+            public void run() {
 
-        IdleAnimation idleAnimation = new IdleAnimation();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.framelayout,idleAnimation,"Idleanimation");
+                handler.post(new Runnable() {
 
-        transaction.commit();
+                    @Override
+                    public void run() {
+
+                        try {
+
+                            if (health < 20 && hunger > 14) {
+
+                                    health++;
+                                    healthBar.setProgress(health);
+
+                            }
+
+                            if (health > 0) {
+
+                                if (hunger == 0 && happiness == 0) {
+
+                                        health = health - 2;
+                                        healthBar.setProgress(health);
+
+                                    } else if (hunger == 0) {
+
+                                        health--;
+                                        healthBar.setProgress(health);
+                                    }
+
+                                    editor.putInt("health", health);
+
+                                }
+
+                                if (happiness > 0) {
+
+                                    happiness--;
+                                    happinessBar.setProgress(happiness);
+                                    editor.putInt("happiness", happiness);
+
+                                }
+
+                                if (hunger > 0) {
+
+                                    hunger--;
+                                    hungerBar.setProgress(hunger);
+                                    editor.putInt("hunger", hunger);
+
+                                }
+
+                            ableToFeed = 0;
+                            ableToPlay = 0;
+
+                            editor.apply();
+
+                        } catch(Exception e) {
+                            System.out.println("Error in degeneration.");
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(timerTask, 0, 8000);
 
     }
 
