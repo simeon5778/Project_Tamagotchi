@@ -1,5 +1,6 @@
 package com.example.tamagotchi.project_tamagotchi;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -8,7 +9,7 @@ public class Creature {
     private String name;
 
     private int age;            //Every day will increase the age by one.
-    private String birthday;    //Date for creation
+    private long birthday;    //Date for creation
     private int level;
 
     private int hunger;         // All of these attributes will
@@ -21,7 +22,7 @@ public class Creature {
     public Creature(String name) {
 
         this.name = name;
-        this.birthday = getDate();
+        this.birthday = System.nanoTime();
 
         this.age = 0;
         this.hunger = 10;
@@ -32,18 +33,11 @@ public class Creature {
     }
 
 
-    private String getDate(){
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        String formattedDate = df.format(c.getTime());
-        return formattedDate;
-    }
-
     public String getName() {
         return name;
     }
 
-    public String getBirthday() {
+    public long getBirthday() {
         return birthday;
     }
 

@@ -25,7 +25,7 @@ public class GameSession extends AppCompatActivity {
     ProgressBar happinessBar;
 
     String name;
-    String birthday;
+    long birthday;
     int age;
     int level;
     int hunger;
@@ -105,7 +105,7 @@ public class GameSession extends AppCompatActivity {
 
 
         name = sharedPref.getString("name", "");
-        birthday = sharedPref.getString("birthday", "");
+        birthday = sharedPref.getLong("birthday", 0);
         age = sharedPref.getInt("age", 0);
         level = sharedPref.getInt("level", 0);
         hunger = sharedPref.getInt("hunger", 0);
@@ -116,12 +116,11 @@ public class GameSession extends AppCompatActivity {
         healthBar.setProgress(health);
         happinessBar.setProgress(happiness);
 
-
     }
 
     public void creatureDegeneration() {
 
-        final Handler handler = new Handler();
+         final Handler degenerationHandler = new Handler();
         Timer timer = new Timer();
 
         TimerTask timerTask = new TimerTask() {
@@ -129,7 +128,7 @@ public class GameSession extends AppCompatActivity {
             @Override
             public void run() {
 
-                handler.post(new Runnable() {
+                degenerationHandler.post(new Runnable() {
 
                     @Override
                     public void run() {
@@ -191,6 +190,7 @@ public class GameSession extends AppCompatActivity {
         timer.schedule(timerTask, 0, 8000);
 
     }
+
 
 
 }
