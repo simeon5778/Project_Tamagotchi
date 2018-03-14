@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/slimeeating_01"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_02"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_03"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_04"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_05"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_06"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_07"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_08"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_09"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_10"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_11"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_12"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_13"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_14"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_15"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeeating_16"
+        android:duration="200"/>
+
+</animation-list>
