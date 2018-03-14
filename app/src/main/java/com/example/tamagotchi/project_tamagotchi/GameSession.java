@@ -19,6 +19,7 @@ public class GameSession extends AppCompatActivity {
     SharedPreferences sharedPref;
     FragmentManager manager;
     SharedPreferences.Editor editor;
+    FragmentTransaction transaction;
 
     ProgressBar healthBar;
     ProgressBar hungerBar;
@@ -44,14 +45,28 @@ public class GameSession extends AppCompatActivity {
 
         creatureDegeneration();
 
-        chooseAnimationAndStartIt();
+        goToIdle();
 
 
     }
 
-    public void feed(View view) {
+    public void feed(View view) throws InterruptedException {
 
         if (hunger < 20 && ableToFeed < 5) {
+
+            //Alex lagt till för att byta sen kanske måste Fixas TODO
+            SlimeeatingAnimation slimeeatingAnimation = new SlimeeatingAnimation();
+            transaction = manager.beginTransaction();
+            transaction.replace(R.id.framelayout,slimeeatingAnimation,"eatingAnimation");
+            transaction.commit();
+
+            final Handler feedHandler = new Handler();
+            feedHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToIdle();
+                }
+            }, 3300);
 
             ableToFeed++;
 
@@ -82,11 +97,11 @@ public class GameSession extends AppCompatActivity {
     }
 
 
-    public void chooseAnimationAndStartIt() {
+    public void goToIdle() {
 
         IdleAnimation idleAnimation = new IdleAnimation();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.framelayout,idleAnimation,"Idleanimation");
+        transaction = manager.beginTransaction();
+        transaction.replace(R.id.framelayout,idleAnimation,"Idleanimation");
 
         transaction.commit();
 

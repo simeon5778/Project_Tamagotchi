@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/slimeidle_01"
+        android:duration="300"/>
+    <item android:drawable="@drawable/slimeidle_02"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeidle_03"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeidle_04"
+        android:duration="100"/>
+    <item android:drawable="@drawable/slimeidle_05"
+        android:duration="100"/>
+    <item android:drawable="@drawable/slimeidle_06"
+        android:duration="200"/>
+    <item android:drawable="@drawable/slimeidle_07"
+        android:duration="100"/>
+    <item android:drawable="@drawable/slimeidle_08"
+        android:duration="100"/>
+    <item android:drawable="@drawable/slimeidle_09"
+        android:duration="500"/>
+</animation-list>
