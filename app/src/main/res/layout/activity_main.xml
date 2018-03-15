@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="140dp"
+        android:layout_marginBottom="145dp"
         android:background="@drawable/buttonshape"
         android:onClick="continueGame"
         android:text="Continue"
@@ -36,7 +36,7 @@
         android:background="@drawable/buttonshape"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="35dp"
         android:onClick="exitProgram"
         android:text="Exit" />
 

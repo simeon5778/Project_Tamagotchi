@@ -53,11 +53,13 @@ public class NewCreatureActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("name", creature.getName().toString());
             editor.putLong("birthday", creature.getBirthday());
+            editor.putLong("levelProgress", 0);
             editor.putInt("age", creature.getAge());
             editor.putInt("level", creature.getLevel());
             editor.putInt("health", creature.getHealth());
             editor.putInt("hunger", creature.getHunger());
             editor.putInt("happiness", creature.getHappiness());
+            editor.putLong("exitTime", 0);
             editor.apply();
 
             Intent intent = new Intent(this, GameSession.class);

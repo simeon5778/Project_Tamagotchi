@@ -25,9 +25,9 @@ public class Creature {
         this.birthday = System.nanoTime();
 
         this.age = 0;
-        this.hunger = 10;
-        this.happiness = 10;
-        this.health = 20;
+        this.hunger = 20;
+        this.happiness = 7;
+        this.health = 15;
         this.level = 1;
 
     }
