@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class GameSession extends AppCompatActivity {
     ProgressBar hungerBar;
     ProgressBar happinessBar;
     TextView levelLabel;
+    ImageView poopImage;
 
     String name;
     long birthday;
@@ -92,7 +94,7 @@ public class GameSession extends AppCompatActivity {
                         goToIdle();
                         isBusy =false;
                     }
-                }, 3300);
+                }, 3200);
 
                 ableToFeed++;
 
@@ -139,6 +141,10 @@ public class GameSession extends AppCompatActivity {
     }
     }
 
+    public void clean(View view) {
+        poopImage.setVisibility(View.INVISIBLE);
+    }
+
 
     public void goToIdle() {
 
@@ -161,6 +167,7 @@ public class GameSession extends AppCompatActivity {
         hungerBar = (ProgressBar) findViewById(R.id.hungerBar);
         happinessBar = (ProgressBar) findViewById(R.id.happinessBar);
         levelLabel = (TextView) findViewById(R.id.levelLabel);
+        poopImage = (ImageView) findViewById(R.id.poop);
 
         name = sharedPref.getString("name", "");
         birthday = sharedPref.getLong("birthday", 0);
@@ -190,7 +197,10 @@ public class GameSession extends AppCompatActivity {
         final Handler degenerationHandler = new Handler();
         Timer timer = new Timer();
 
+
+
         TimerTask timerTask = new TimerTask() {
+
 
             @Override
             public void run() {
@@ -199,6 +209,10 @@ public class GameSession extends AppCompatActivity {
 
                     @Override
                     public void run() {
+
+                        if (hunger == 20) {
+                            poopImage.setVisibility(View.VISIBLE);
+                        }
 
                         try {
 
