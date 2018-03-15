@@ -39,7 +39,7 @@ public class GameSession extends AppCompatActivity {
     int happiness;
     int ableToFeed = 0;
     int ableToPlay = 0;
-    boolean isCurrentlyEating;
+    boolean isBusy;
 
 
     @Override
@@ -74,8 +74,8 @@ public class GameSession extends AppCompatActivity {
 
     public void feed(View view) throws InterruptedException {
 
-        if (!isCurrentlyEating) {
-            isCurrentlyEating = true;
+        if (!isBusy) {
+            isBusy =true;
 
             if (hunger < 20 && ableToFeed < 5 && health > 0) {
 
@@ -90,7 +90,7 @@ public class GameSession extends AppCompatActivity {
                     @Override
                     public void run() {
                         goToIdle();
-                        isCurrentlyEating = false;
+                        isBusy =false;
                     }
                 }, 3300);
 
@@ -103,13 +103,29 @@ public class GameSession extends AppCompatActivity {
                 editor.putInt("hunger", hunger);
                 editor.apply();
             }
-
         }
     }
 
     public void play(View view) {
 
-        if (happiness < 20 && ableToPlay < 5 && health > 0) {
+        if (!isBusy) {
+            isBusy = true;
+
+            SlimeplayingAnimation slimeplayingAnimation = new SlimeplayingAnimation();
+            transaction = manager.beginTransaction();
+            transaction.replace(R.id.framelayout, slimeplayingAnimation, "eatingAnimation");
+            transaction.commit();
+
+            final Handler feedHandler = new Handler();
+            feedHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToIdle();
+                    isBusy =false;
+                }
+            }, 3550);
+
+            if (happiness < 20 && ableToPlay < 5 && health > 0) {
 
             ableToPlay++;
 
@@ -120,6 +136,7 @@ public class GameSession extends AppCompatActivity {
             editor.putInt("happiness", happiness);
             editor.apply();
         }
+    }
     }
 
 
@@ -138,6 +155,7 @@ public class GameSession extends AppCompatActivity {
         sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
         manager = getFragmentManager();
+
 
         healthBar = (ProgressBar) findViewById(R.id.healthBar);
         hungerBar = (ProgressBar) findViewById(R.id.hungerBar);
