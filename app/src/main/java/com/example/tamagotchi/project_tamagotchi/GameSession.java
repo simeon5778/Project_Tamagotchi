@@ -39,6 +39,7 @@ public class GameSession extends AppCompatActivity {
     int happiness;
     int ableToFeed = 0;
     int ableToPlay = 0;
+    boolean isCurrentlyEating;
 
 
     @Override
@@ -73,30 +74,36 @@ public class GameSession extends AppCompatActivity {
 
     public void feed(View view) throws InterruptedException {
 
-        if (hunger < 20 && ableToFeed < 5 && health > 0) {
+        if (!isCurrentlyEating) {
+            isCurrentlyEating = true;
 
-            //Alex lagt till för att byta sen kanske måste Fixas TODO
-            SlimeeatingAnimation slimeeatingAnimation = new SlimeeatingAnimation();
-            transaction = manager.beginTransaction();
-            transaction.replace(R.id.framelayout,slimeeatingAnimation,"eatingAnimation");
-            transaction.commit();
+            if (hunger < 20 && ableToFeed < 5 && health > 0) {
 
-            final Handler feedHandler = new Handler();
-            feedHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    goToIdle();
-                }
-            }, 3300);
+                //Alex lagt till för att byta sen kanske måste Fixas TODO
+                SlimeeatingAnimation slimeeatingAnimation = new SlimeeatingAnimation();
+                transaction = manager.beginTransaction();
+                transaction.replace(R.id.framelayout, slimeeatingAnimation, "eatingAnimation");
+                transaction.commit();
 
-            ableToFeed++;
+                final Handler feedHandler = new Handler();
+                feedHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        goToIdle();
+                        isCurrentlyEating = false;
+                    }
+                }, 3300);
 
-            hunger++;
+                ableToFeed++;
 
-            hungerBar.setProgress(hunger);
+                hunger++;
 
-            editor.putInt("hunger", hunger);
-            editor.apply();
+                hungerBar.setProgress(hunger);
+
+                editor.putInt("hunger", hunger);
+                editor.apply();
+            }
+
         }
     }
 
