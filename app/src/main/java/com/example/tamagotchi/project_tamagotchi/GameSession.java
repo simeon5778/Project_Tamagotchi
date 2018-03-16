@@ -42,6 +42,7 @@ public class GameSession extends AppCompatActivity {
     int ableToFeed = 0;
     int ableToPlay = 0;
     boolean isBusy;
+    boolean poop;
 
 
     @Override
@@ -77,7 +78,7 @@ public class GameSession extends AppCompatActivity {
     public void feed(View view) throws InterruptedException {
 
         if (!isBusy) {
-            isBusy =true;
+            isBusy = true;
 
             if (hunger < 20 && ableToFeed < 5 && health > 0) {
 
@@ -92,7 +93,7 @@ public class GameSession extends AppCompatActivity {
                     @Override
                     public void run() {
                         goToIdle();
-                        isBusy =false;
+                        isBusy = false;
                     }
                 }, 3200);
 
@@ -123,26 +124,29 @@ public class GameSession extends AppCompatActivity {
                 @Override
                 public void run() {
                     goToIdle();
-                    isBusy =false;
+                    isBusy = false;
                 }
             }, 3550);
 
             if (happiness < 20 && ableToPlay < 5 && health > 0) {
 
-            ableToPlay++;
+                ableToPlay++;
 
-            happiness++;
+                happiness++;
 
-            happinessBar.setProgress(happiness);
+                happinessBar.setProgress(happiness);
 
-            editor.putInt("happiness", happiness);
-            editor.apply();
+                editor.putInt("happiness", happiness);
+                editor.apply();
+            }
         }
-    }
     }
 
     public void clean(View view) {
+        poop = false;
         poopImage.setVisibility(View.INVISIBLE);
+        editor.putBoolean("poop", poop);
+        editor.apply();
     }
 
 
@@ -150,7 +154,7 @@ public class GameSession extends AppCompatActivity {
 
         IdleAnimation idleAnimation = new IdleAnimation();
         transaction = manager.beginTransaction();
-        transaction.replace(R.id.framelayout,idleAnimation,"Idleanimation");
+        transaction.replace(R.id.framelayout, idleAnimation, "Idleanimation");
 
         transaction.commit();
 
@@ -178,11 +182,19 @@ public class GameSession extends AppCompatActivity {
         health = sharedPref.getInt("health", 0);
         happiness = sharedPref.getInt("happiness", 0);
         exitTime = sharedPref.getLong("exitTime", 0);
+        poop = sharedPref.getBoolean("poop", false);
         startTime = System.nanoTime();
+
 
         if (exitTime != 0) {
 
             calculateDegeneration(startTime, exitTime);
+
+        }
+
+        if (poop == true) {
+
+            poopImage.setVisibility(View.VISIBLE);
 
         }
 
@@ -198,7 +210,6 @@ public class GameSession extends AppCompatActivity {
         Timer timer = new Timer();
 
 
-
         TimerTask timerTask = new TimerTask() {
 
 
@@ -211,15 +222,17 @@ public class GameSession extends AppCompatActivity {
                     public void run() {
 
                         if (hunger == 20) {
+                            poop = true;
                             poopImage.setVisibility(View.VISIBLE);
+                            editor.putBoolean("poop", poop);
                         }
 
                         try {
 
-                            if (health < 20 && hunger > 14) {
+                            if (health < 20 && health > 0 && hunger > 14) {
 
-                                    health++;
-                                    healthBar.setProgress(health);
+                                health++;
+                                healthBar.setProgress(health);
 
                             }
 
@@ -227,52 +240,59 @@ public class GameSession extends AppCompatActivity {
 
                                 if (hunger == 0 && happiness == 0) {
 
-                                        health = health - 2;
-                                        healthBar.setProgress(health);
+                                    health = health - 2;
+                                    healthBar.setProgress(health);
 
-                                    } else if (hunger == 0) {
+                                } else if (hunger == 0) {
 
-                                        health--;
-                                        healthBar.setProgress(health);
-                                    }
-
-                                    editor.putInt("health", health);
-
+                                    health--;
+                                    healthBar.setProgress(health);
                                 }
 
-                                if (happiness > 0) {
+                                editor.putInt("health", health);
 
-                                    happiness--;
-                                    happinessBar.setProgress(happiness);
-                                    editor.putInt("happiness", happiness);
+                            }
 
-                                }
+                            if (happiness > 0 && poop == false) {
 
-                                if (hunger > 0) {
+                                happiness--;
+                                happinessBar.setProgress(happiness);
+                                editor.putInt("happiness", happiness);
 
-                                    hunger--;
-                                    hungerBar.setProgress(hunger);
-                                    editor.putInt("hunger", hunger);
+                            } else if (happiness > 0 && poop == true) {
 
-                                }
+                                happiness = happiness - 2;
+                                happinessBar.setProgress(happiness);
+                                editor.putInt("happiness", happiness);
+
+                            }
+
+                            if (hunger > 0) {
+
+                                hunger--;
+                                hungerBar.setProgress(hunger);
+                                editor.putInt("hunger", hunger);
+
+                            }
 
                             ableToFeed = 0;
                             ableToPlay = 0;
 
                             editor.apply();
 
-                        } catch(Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Error in degeneration.");
                         }
                     }
                 });
             }
         };
-        timer.schedule(timerTask, 0, 8000);
+        timer.schedule(timerTask, 0, 4000);
 
     }
 
     public void calculateDegeneration(long startTime, long exitTime) {
+
 
         long timeDifference = startTime - exitTime;
 
@@ -282,43 +302,53 @@ public class GameSession extends AppCompatActivity {
         //Convert seconds to minutes
         timeDifference = timeDifference / 4;
 
-        int newHunger = hunger - (int) timeDifference;
-        int newHappiness = happiness - (int) timeDifference;
 
+        if (hunger == 20) {
+            poop = true;
+        }
+
+
+        //Loop to calculate the new stats.
         while (timeDifference > 0) {
 
+            //Statement for checking if our creature should regain health while the app is exited.
             if (hunger > 14) {
+
                 health++;
-                hunger--;
-                happiness--;
 
-            } else {
-
-                if (health > 0) {
-
-                    if (newHunger < 0 && newHappiness < 0) {
-
-                        health = health - 2;
-                        newHunger++;
-                        newHappiness++;
-
-                    } else if (newHunger < 0) {
-
-                        health--;
-                        newHunger++;
-
-                    }
-                    timeDifference--;
-                } else {
-                    timeDifference = 0;
-                    newHunger = 0;
-                    newHappiness = 0;
-                    // MAke something that stops the whole thing when he dies. TODO
-                }
-                hunger = newHunger;
-                happiness = newHappiness;
             }
+
+            if (health < 1) {
+                break;
+
+            }
+
+            if (poop) {
+                happiness = happiness - 2;
+            } else {
+                happiness--;
+            }
+            hunger--;
+
+
+            if (hunger < 1 && happiness < 1) {
+                health = health - 2;
+            } else if (hunger < 1) {
+                health--;
+            }
+
+
+            timeDifference--;
         }
+
+        //If a negative value is reached set the variables to 0.
+        if (hunger < 0) {
+            hunger = 0;
+        }
+        if (happiness < 0) {
+            happiness = 0;
+        }
+
 
         //Progress for leveling up
         if (exitTime > 0) {
@@ -358,10 +388,10 @@ public class GameSession extends AppCompatActivity {
         editor.putInt("hunger", hunger);
         editor.putLong("levelProgress", levelProgress);
         editor.putInt("level", level);
+        editor.putBoolean("poop", poop);
         editor.apply();
 
     }
-
 
 
 }
