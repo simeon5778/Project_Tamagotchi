@@ -6,13 +6,12 @@
 
     <ImageView
         android:id="@+id/playingAnimation_id"
-        android:background="@drawable/slimeeating"
         android:layout_width="200dp"
         android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="110dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="47dp"
+        android:background="@drawable/slimeplaying"
         tools:layout_editor_absoluteX="122dp"
         tools:layout_editor_absoluteY="185dp" />
 

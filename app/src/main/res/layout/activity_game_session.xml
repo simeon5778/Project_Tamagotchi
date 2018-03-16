@@ -6,8 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.example.tamagotchi.project_tamagotchi.GameSession">
 
+    <ImageView
+        android:id="@+id/poop"
+        android:visibility="invisible"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/bottomLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="12dp"
+        app:srcCompat="@drawable/poop" />
+
     <RelativeLayout
         android:id="@+id/topLayout"
+        android:background="#72c4cf"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
@@ -67,11 +78,41 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/happinessBar"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/happinessBar"
+            android:layout_toStartOf="@+id/happinessBar"
+            app:srcCompat="@drawable/smilie" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/hungerBar"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/hungerBar"
+            android:layout_toStartOf="@+id/healthBar"
+            app:srcCompat="@drawable/forkandknife" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/healthBar"
+            android:layout_alignTop="@+id/healthBar"
+            android:layout_toStartOf="@+id/healthBar"
+            app:srcCompat="@drawable/hearth" />
+
 
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/bottomLayout"
+        android:background="#e6ebe7"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
@@ -106,21 +147,22 @@
             android:text="Play" />
 
         <Button
-            android:layout_marginTop="15dp"
             android:id="@+id/button3"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/buttonshape"
+            android:layout_marginTop="15dp"
             android:layout_weight="1"
+            android:background="@drawable/buttonshape"
+            android:onClick="clean"
             android:text="Clean" />
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/framelayout"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true">
+        android:layout_height="320dp"
+        android:layout_above="@+id/bottomLayout"
+        android:layout_alignParentStart="true">
 
     </FrameLayout>
 </RelativeLayout>

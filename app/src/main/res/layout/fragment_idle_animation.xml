@@ -6,13 +6,11 @@
 
     <ImageView
         android:id="@+id/idleAnimation"
-        android:background="@drawable/slimeidle"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="110dp"
+        android:background="@drawable/slimeidle"
         tools:layout_editor_absoluteX="122dp"
         tools:layout_editor_absoluteY="185dp" />
 
