@@ -229,13 +229,14 @@ public class GameSession extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        if (hunger == 20) {
-                            poop = true;
-                            poopImage.setVisibility(View.VISIBLE);
-                            editor.putBoolean("poop", poop);
-                        }
 
                         try {
+
+                            if (hunger == 20) {
+                                poop = true;
+                                poopImage.setVisibility(View.VISIBLE);
+                                editor.putBoolean("poop", poop);
+                            }
 
                             if (health < 20 && health > 0 && hunger > 14) {
 
@@ -245,6 +246,7 @@ public class GameSession extends AppCompatActivity {
                             }
 
                             if (health > 0) {
+
 
                                 if (hunger == 0 && happiness == 0) {
 
@@ -399,6 +401,5 @@ public class GameSession extends AppCompatActivity {
         editor.apply();
 
     }
-
-
+    
 }
