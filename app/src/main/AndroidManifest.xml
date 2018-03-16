@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".NewCreatureActivity" />
-        <activity android:name=".GameSession"></activity>
+        <activity android:name=".GameSession" />
+        <activity android:name=".Gameover"></activity>
     </application>
 
 </manifest>

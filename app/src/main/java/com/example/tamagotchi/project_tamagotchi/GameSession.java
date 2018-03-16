@@ -3,6 +3,7 @@ package com.example.tamagotchi.project_tamagotchi;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -180,6 +181,14 @@ public class GameSession extends AppCompatActivity {
         exitTime = sharedPref.getLong("exitTime", 0);
         startTime = System.nanoTime();
 
+
+        if (health < 1) {
+            Intent intent = new Intent(this, Gameover.class);
+            startActivity(intent);
+        }
+        else {
+
+
         if (exitTime != 0) {
 
             calculateDegeneration(startTime, exitTime);
@@ -189,14 +198,23 @@ public class GameSession extends AppCompatActivity {
         hungerBar.setProgress(hunger);
         healthBar.setProgress(health);
         happinessBar.setProgress(happiness);
-
+        }
     }
 
     public void creatureDegeneration() {
 
+        System.out.println("derp");
+
+        if (health < 1) {
+            Intent intent = new Intent(this, Gameover.class);
+            startActivity(intent);
+
+        }
+
+
+
         final Handler degenerationHandler = new Handler();
         Timer timer = new Timer();
-
 
 
         TimerTask timerTask = new TimerTask() {
@@ -209,6 +227,8 @@ public class GameSession extends AppCompatActivity {
 
                     @Override
                     public void run() {
+
+
 
                         if (hunger == 20) {
                             poopImage.setVisibility(View.VISIBLE);
@@ -269,6 +289,7 @@ public class GameSession extends AppCompatActivity {
             }
         };
         timer.schedule(timerTask, 0, 8000);
+
 
     }
 

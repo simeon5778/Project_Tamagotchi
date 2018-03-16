@@ -30,7 +30,6 @@ public class StartActivity extends AppCompatActivity {
     public void continueGame(View view) {
 
         //If statement that checks if we have a creature already.
-
         Intent intent = new Intent(this, GameSession.class);
         startActivity(intent);
 
