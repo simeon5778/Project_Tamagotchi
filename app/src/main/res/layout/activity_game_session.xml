@@ -30,6 +30,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="250dp"
             android:layout_height="22dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:indeterminate="false"
@@ -43,6 +45,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="250dp"
             android:layout_height="22dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="4dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="38dp"
             android:indeterminate="false"
@@ -56,6 +60,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="250dp"
             android:layout_height="22dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="4dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="66dp"
             android:indeterminate="false"
@@ -68,11 +74,12 @@
             android:id="@+id/levelLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/happinessBar"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="12dp"
             android:layout_below="@+id/healthBar"
             android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
             android:text="Lvl. 1"
             android:textAlignment="center"
             android:textSize="18sp"
@@ -128,14 +135,6 @@
             android:background="@drawable/buttonshape"
             android:onClick="feed"
             android:text="Feed" />
-
-        <Button
-            android:layout_marginTop="15dp"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/buttonshape"
-            android:layout_weight="1"
-            android:text="Pet" />
 
         <Button
             android:layout_marginTop="15dp"
