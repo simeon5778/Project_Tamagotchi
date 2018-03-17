@@ -38,7 +38,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="15dp"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="20dp"
         android:background="@drawable/buttonshape"
         android:onClick="goToMainMenu"
         android:text="MAIN MENU" />
@@ -49,7 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/mainmenuButton"
         android:layout_alignBottom="@+id/mainmenuButton"
-        android:layout_toEndOf="@+id/mainmenuButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/buttonshape"
         android:onClick="shareOnFb"
         android:text="SHARE" />
