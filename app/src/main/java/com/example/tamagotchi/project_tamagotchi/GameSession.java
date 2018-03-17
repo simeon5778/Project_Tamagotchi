@@ -5,13 +5,17 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -372,6 +376,8 @@ public class GameSession extends AppCompatActivity {
         //Progress for leveling up
         if (exitTime > 0) {
 
+            boolean levelUp = false;
+
             if (level < 5) {
 
                 levelProgress = levelProgress + (startTime - exitTime);
@@ -382,24 +388,42 @@ public class GameSession extends AppCompatActivity {
 
                     levelLabel.setText("Lvl. 5");
                     level = 5;
+                    levelUp = true;
 
                 } else if (convertedLevelProgress > 60) {
 
                     levelLabel.setText("Lvl. 4");
                     level = 4;
+                    levelUp = true;
 
                 } else if (convertedLevelProgress > 40) {
 
                     levelLabel.setText("Lvl. 3");
                     level = 3;
+                    levelUp = true;
 
                 } else if (convertedLevelProgress > 20) {
 
                     levelLabel.setText("Lvl. 2");
                     level = 2;
+                    levelUp = true;
 
                 }
             }
+            if (levelUp && health > 0) {
+                Context context = getApplicationContext();
+                CharSequence text = "Congratulations! You reached level " + level + "!";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                View view = toast.getView();
+                view.getBackground().setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                TextView textView = view.findViewById(android.R.id.message);
+                textView.setTextColor(Color.BLACK);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+            levelUp = false;
         }
 
         editor.putInt("health", health);

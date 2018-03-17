@@ -7,8 +7,6 @@ import java.util.Calendar;
 public class Creature {
 
     private String name;
-
-    private int age;            //Every day will increase the age by one.
     private long birthday;    //Date for creation
     private int level;
 
@@ -24,9 +22,8 @@ public class Creature {
         this.name = name;
         this.birthday = System.nanoTime();
 
-        this.age = 0;
-        this.hunger = 20;
-        this.happiness = 20;
+        this.hunger = 15;
+        this.happiness = 15;
         this.health = 20;
         this.level = 1;
 
@@ -41,43 +38,20 @@ public class Creature {
         return birthday;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public int getLevel() {
         return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
     }
 
     public int getHunger() {
         return hunger;
     }
 
-    public void setHunger(int hunger) {
-        this.hunger = hunger;
-    }
-
     public int getHappiness() {
         return happiness;
-    }
-
-    public void setHappiness(int happiness) {
-        this.happiness = happiness;
     }
 
     public int getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
 }
