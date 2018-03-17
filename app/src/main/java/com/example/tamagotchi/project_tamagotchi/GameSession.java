@@ -45,6 +45,8 @@ public class GameSession extends AppCompatActivity {
     boolean isBusy;
     boolean poop;
 
+    Intent gameSessionIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,14 +217,22 @@ public class GameSession extends AppCompatActivity {
     public void creatureDegeneration() {
 
         final Handler degenerationHandler = new Handler();
-        Timer timer = new Timer();
+        final Timer timer = new Timer();
 
 
-        TimerTask timerTask = new TimerTask() {
+        final TimerTask timerTask = new TimerTask() {
 
 
             @Override
             public void run() {
+
+                if (health < 1) {
+
+                    timer.cancel();
+                    showGameOverScreen();
+
+
+                }
 
                 degenerationHandler.post(new Runnable() {
 
@@ -400,6 +410,12 @@ public class GameSession extends AppCompatActivity {
         editor.putBoolean("poop", poop);
         editor.apply();
 
+    }
+
+    public void showGameOverScreen() {
+
+        Intent intent = new Intent(this, Gameover.class);
+        startActivity(intent);
     }
     
 }
