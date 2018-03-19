@@ -7,7 +7,7 @@
 
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Kleggi"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -22,9 +22,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".NewCreatureActivity" />
-        <activity android:name=".GameSession" />
-        <activity android:name=".Gameover"></activity>
+        <activity
+            android:name=".NewCreatureActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".GameSession"
+            android:noHistory="true" />
+        <activity
+            android:name=".Gameover"
+            android:noHistory="true">
+
+        </activity>
 
         <provider android:authorities="com.facebook.app.FacebookContentProvider1608656422558439"
             android:name="com.facebook.FacebookContentProvider"

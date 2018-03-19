@@ -27,9 +27,11 @@
         android:id="@+id/finishText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/ghost_id"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="TextView" />
+        android:layout_marginBottom="116dp"
+        android:text="TextView"
+        android:textStyle="bold|italic" />
 
     <Button
         android:id="@+id/mainmenuButton"

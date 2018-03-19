@@ -234,6 +234,8 @@ public class GameSession extends AppCompatActivity {
         poop = sharedPref.getBoolean("poop", false);
         startTime = System.nanoTime();
 
+        levelLabel.setText("Lvl. " + level);
+
 
         if (health < 1) {
             Intent intent = new Intent(this, Gameover.class);
@@ -355,7 +357,7 @@ public class GameSession extends AppCompatActivity {
         timeDifference = timeDifference / 1000000000;
 
         //Convert seconds to minutes
-        timeDifference = timeDifference / 25000;
+        timeDifference = timeDifference / 25;
 
         if (hunger == 20) {
             poop = true;
@@ -448,6 +450,7 @@ public class GameSession extends AppCompatActivity {
                 }
             }
             if (levelUp && health > 0) {
+
                 Context context = getApplicationContext();
                 CharSequence text = "Congratulations! You reached level " + level + "!";
                 int duration = Toast.LENGTH_LONG;

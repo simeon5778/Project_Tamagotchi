@@ -38,7 +38,6 @@ public class Gameover extends AppCompatActivity {
 
     AnimationDrawable ghostAnimation;
     SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     View rootView;
@@ -67,23 +66,26 @@ public class Gameover extends AppCompatActivity {
         shareDialog = new ShareDialog(this);
 
 
+        try {
 
+            //Start the ghost animation
+            ghost.setBackgroundResource(R.drawable.ghost);
+            ghostAnimation = (AnimationDrawable) ghost.getBackground();
+            ghostAnimation.start();
 
-        //Start the ghost animation
-        ghost.setBackgroundResource(R.drawable.ghost);
-        ghostAnimation = (AnimationDrawable) ghost.getBackground();
-        ghostAnimation.start();
+        } catch (Exception e) {
+            //To catch animation errors.
+        }
 
 
         //set the text for our finishing text
         sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
 
         level = sharedPref.getInt("level", 0);
 
-        finshText.setText("Your pet has died of neglect. \n You reached level :  " + level + " ! \n congrats");
+        finshText.setText("Your pet has died of neglect.\nYou reached level " + level + "!\nCongratulations!");
 
-
+        finshText.setTextSize(24);
 
 
     }
