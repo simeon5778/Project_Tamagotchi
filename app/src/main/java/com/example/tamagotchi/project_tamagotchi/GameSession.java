@@ -82,84 +82,108 @@ public class GameSession extends AppCompatActivity {
 
     public void feed(View view) {
 
+        try {
+
             if (hunger < 20 && ableToFeed < 5 && health > 0 && isBusy == false) {
 
                 isBusy = true;
 
-                try {
+                SlimeeatingAnimation slimeeatingAnimation = new SlimeeatingAnimation();
+                transaction = manager.beginTransaction();
+                transaction.replace(R.id.framelayout, slimeeatingAnimation, "eatingAnimation");
+                transaction.commit();
 
-                    SlimeeatingAnimation slimeeatingAnimation = new SlimeeatingAnimation();
-                    transaction = manager.beginTransaction();
-                    transaction.replace(R.id.framelayout, slimeeatingAnimation, "eatingAnimation");
-                    transaction.commit();
+                final Handler feedHandler = new Handler();
+                feedHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        goToIdle();
+                        isBusy = false;
+                    }
+                }, 3200);
 
-                    final Handler feedHandler = new Handler();
-                    feedHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            goToIdle();
-                            isBusy = false;
-                        }
-                    }, 3200);
+                ableToFeed++;
 
-                    ableToFeed++;
+                hunger++;
 
-                    hunger++;
+                hungerBar.setProgress(hunger);
 
-                    hungerBar.setProgress(hunger);
+                editor.putInt("hunger", hunger);
+                editor.apply();
 
-                    System.out.println(ableToFeed + "onclick");
+            } else if (hunger < 20 && ableToFeed > 4 && health > 0 && isBusy == false) {
 
-                    editor.putInt("hunger", hunger);
-                    editor.apply();
+                Context context = getApplicationContext();
+                CharSequence text = "Unable to feed. Please try again later!";
+                int duration = Toast.LENGTH_SHORT;
 
-                } catch (Exception e) {
-                    //Only to prevent errors with animations.
-                }
+                Toast toast = Toast.makeText(context, text, duration);
+                View viewFeed = toast.getView();
+                viewFeed.getBackground().setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                TextView textView = viewFeed.findViewById(android.R.id.message);
+                textView.setTextColor(Color.BLACK);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
 
             }
+
+        } catch (Exception e) {
+            //Only to prevent errors with animations.
         }
+    }
 
     public void play(View view) {
+
+        try {
 
             if (happiness < 20 && ableToPlay < 5 && health > 0 && isBusy == false) {
 
                 isBusy = true;
 
-                try {
+                SlimeplayingAnimation slimeplayingAnimation = new SlimeplayingAnimation();
+                transaction = manager.beginTransaction();
+                transaction.replace(R.id.framelayout, slimeplayingAnimation, "playingAnimation");
+                transaction.commit();
 
-                    SlimeplayingAnimation slimeplayingAnimation = new SlimeplayingAnimation();
-                    transaction = manager.beginTransaction();
-                    transaction.replace(R.id.framelayout, slimeplayingAnimation, "playingAnimation");
-                    transaction.commit();
+                final Handler feedHandler = new Handler();
+                feedHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        goToIdle();
+                        isBusy = false;
+                    }
+                }, 3550);
 
-                    final Handler feedHandler = new Handler();
-                    feedHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            goToIdle();
-                            isBusy = false;
-                        }
-                    }, 3550);
+                ableToPlay++;
 
-                    ableToPlay++;
+                happiness++;
 
-                    happiness++;
+                happinessBar.setProgress(happiness);
 
-                    happinessBar.setProgress(happiness);
+                editor.putInt("happiness", happiness);
+                editor.apply();
 
-                    System.out.println(ableToPlay + "onclick");
+            } else if (happiness < 20 && ableToPlay > 4 && health > 0 && isBusy == false) {
 
-                    editor.putInt("happiness", happiness);
-                    editor.apply();
+                Context context = getApplicationContext();
+                CharSequence text = "Unable to play. Please try again later!";
+                int duration = Toast.LENGTH_SHORT;
 
-                } catch (Exception e) {
-                    //Only to prevent errors with animations.
-                }
-
+                Toast toast = Toast.makeText(context, text, duration);
+                View viewPlay = toast.getView();
+                viewPlay.getBackground().setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                TextView textView = viewPlay.findViewById(android.R.id.message);
+                textView.setTextColor(Color.BLACK);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
 
             }
+
+        } catch (Exception e) {
+            //Only to prevent errors with animations.
         }
+
+    }
 
     public void clean(View view) {
         poop = false;
@@ -214,8 +238,7 @@ public class GameSession extends AppCompatActivity {
         if (health < 1) {
             Intent intent = new Intent(this, Gameover.class);
             startActivity(intent);
-        }
-        else {
+        } else {
 
             if (exitTime != 0) {
 
@@ -229,9 +252,9 @@ public class GameSession extends AppCompatActivity {
 
             }
 
-        hungerBar.setProgress(hunger);
-        healthBar.setProgress(health);
-        happinessBar.setProgress(happiness);
+            hungerBar.setProgress(hunger);
+            healthBar.setProgress(health);
+            happinessBar.setProgress(happiness);
         }
     }
 
@@ -240,9 +263,7 @@ public class GameSession extends AppCompatActivity {
         final Handler degenerationHandler = new Handler();
         final Timer timer = new Timer();
 
-
         final TimerTask timerTask = new TimerTask() {
-
 
             @Override
             public void run() {
@@ -252,14 +273,12 @@ public class GameSession extends AppCompatActivity {
                     timer.cancel();
                     showGameOverScreen();
 
-
                 }
 
                 degenerationHandler.post(new Runnable() {
 
                     @Override
                     public void run() {
-
 
                         try {
 
@@ -268,7 +287,6 @@ public class GameSession extends AppCompatActivity {
                                 poopImage.setVisibility(View.VISIBLE);
                                 editor.putBoolean("poop", poop);
                             }
-
 
                             if (health > 0) {
 
@@ -308,8 +326,6 @@ public class GameSession extends AppCompatActivity {
 
                             ableToFeed = 0;
                             ableToPlay = 0;
-                            System.out.println(ableToFeed+ "degeneration");
-                            System.out.println(ableToPlay + "degeneration");
 
                             healthBar.setProgress(health);
                             hungerBar.setProgress(hunger);
@@ -341,11 +357,9 @@ public class GameSession extends AppCompatActivity {
         //Convert seconds to minutes
         timeDifference = timeDifference / 25000;
 
-
         if (hunger == 20) {
             poop = true;
         }
-
 
         //Loop to calculate the new stats.
         while (timeDifference > 0) {
@@ -375,7 +389,6 @@ public class GameSession extends AppCompatActivity {
 
             hunger--;
 
-
             if (hunger < 1 && happiness < 1) {
 
                 health = health - 2;
@@ -385,7 +398,6 @@ public class GameSession extends AppCompatActivity {
                 health--;
 
             }
-
 
             timeDifference--;
         }
@@ -397,7 +409,6 @@ public class GameSession extends AppCompatActivity {
         if (happiness < 0) {
             happiness = 0;
         }
-
 
         //Progress for leveling up
         if (exitTime > 0) {
@@ -466,5 +477,5 @@ public class GameSession extends AppCompatActivity {
         Intent intent = new Intent(this, Gameover.class);
         startActivity(intent);
     }
-    
+
 }
