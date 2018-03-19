@@ -119,7 +119,7 @@ public class GameSession extends AppCompatActivity {
 
                 Toast toast = Toast.makeText(context, text, duration);
                 View viewFeed = toast.getView();
-                viewFeed.getBackground().setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                viewFeed.getBackground().setColorFilter(Color.rgb(255, 209, 209), PorterDuff.Mode.SRC_IN);
                 TextView textView = viewFeed.findViewById(android.R.id.message);
                 textView.setTextColor(Color.BLACK);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -171,7 +171,7 @@ public class GameSession extends AppCompatActivity {
 
                 Toast toast = Toast.makeText(context, text, duration);
                 View viewPlay = toast.getView();
-                viewPlay.getBackground().setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                viewPlay.getBackground().setColorFilter(Color.rgb(255, 209, 209), PorterDuff.Mode.SRC_IN);
                 TextView textView = viewPlay.findViewById(android.R.id.message);
                 textView.setTextColor(Color.BLACK);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -191,7 +191,6 @@ public class GameSession extends AppCompatActivity {
         editor.putBoolean("poop", poop);
         editor.apply();
     }
-
 
     public void goToIdle() {
 

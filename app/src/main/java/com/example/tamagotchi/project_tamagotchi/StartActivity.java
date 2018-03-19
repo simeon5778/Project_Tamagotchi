@@ -45,6 +45,7 @@ public class StartActivity extends AppCompatActivity {
 
     public void continueGame(View view) {
 
+        //If statement that checks if we have a creature already.
         if (exitTime > 0) {
 
             if (health > 0) {
@@ -66,7 +67,7 @@ public class StartActivity extends AppCompatActivity {
 
             Toast toast = Toast.makeText(context, text, duration);
             View viewContinue = toast.getView();
-            viewContinue.getBackground().setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+            viewContinue.getBackground().setColorFilter(Color.rgb(255, 209, 209), PorterDuff.Mode.SRC_IN);
             TextView textView = viewContinue.findViewById(android.R.id.message);
             textView.setTextColor(Color.BLACK);
             toast.setGravity(Gravity.CENTER, 0, 0);
@@ -74,11 +75,6 @@ public class StartActivity extends AppCompatActivity {
 
         }
 
-
-        //If statement that checks if we have a creature already.
-
-
     }
-
 
 }

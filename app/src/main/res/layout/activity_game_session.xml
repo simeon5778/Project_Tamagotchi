@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context="com.example.tamagotchi.project_tamagotchi.GameSession">
 
     <ImageView
@@ -126,6 +127,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal">
+
 
         <Button
             android:layout_marginTop="15dp"
