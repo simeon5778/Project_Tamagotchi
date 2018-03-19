@@ -38,6 +38,15 @@
         android:onClick="startGame"
         android:text="Start" />
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="156dp"
+        app:srcCompat="@drawable/kleggiicon" />
+
     <CheckBox
         android:id="@+id/overwriteCheckBox"
         android:layout_width="wrap_content"
