@@ -3,13 +3,30 @@ package com.example.tamagotchi.project_tamagotchi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Gameover extends AppCompatActivity {
 
@@ -22,6 +39,10 @@ public class Gameover extends AppCompatActivity {
     AnimationDrawable ghostAnimation;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
+    View rootView;
+
 
     int level;
 
@@ -29,7 +50,10 @@ public class Gameover extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_gameover);
+         rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+
 
         //initiate the objects
         finshText = findViewById(R.id.finishText);
@@ -37,6 +61,12 @@ public class Gameover extends AppCompatActivity {
         tombstone = (ImageView) findViewById(R.id.tombstone_id);
         mainMenu = (Button) findViewById(R.id.mainmenuButton);
         share = (Button) findViewById(R.id.shareButton);
+
+        //init facebook
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
+
+
 
 
         //Start the ghost animation
@@ -65,13 +95,27 @@ public class Gameover extends AppCompatActivity {
     }
 
     public void shareOnFb (View view) {
-        Intent myIntent = new Intent(Intent.ACTION_SEND);
-        myIntent.setType("text/plain");
-        String shareBody = "Your body here";
-        String shareSub = "Your Subject here";
-        myIntent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
-        myIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
-        startActivity(Intent.createChooser(myIntent, "Share using"));
 
+        SharePhoto sharePhoto = new SharePhoto.Builder()
+                .setBitmap(getScreenShot(view))
+                .build();
+
+        if (ShareDialog.canShow(SharePhotoContent.class)) {
+            SharePhotoContent content = new SharePhotoContent.Builder()
+                    .addPhoto(sharePhoto)
+                    .build();
+            shareDialog.show(content);
+
+        }
     }
+
+
+    public static Bitmap getScreenShot(View view) {
+        View screenView = view.getRootView();
+        screenView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+        screenView.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+
 }

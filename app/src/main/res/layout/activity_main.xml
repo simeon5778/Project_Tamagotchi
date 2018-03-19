@@ -40,12 +40,13 @@
         android:onClick="exitProgram"
         android:text="Exit" />
 
-    <TextView
-        android:id="@+id/textView"
+    <ImageView
+        android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="162dp"
-        android:text="TAMAGOTCHI PROJECT" />
+        android:layout_marginTop="156dp"
+        app:srcCompat="@drawable/kleggiicon" />
+
 </RelativeLayout>
