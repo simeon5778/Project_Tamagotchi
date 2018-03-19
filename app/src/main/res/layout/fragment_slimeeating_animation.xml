@@ -6,11 +6,11 @@
 
     <ImageView
         android:id="@+id/eatingAnimation_id"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
         android:layout_marginStart="48dp"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/slimeeating"
         tools:layout_editor_absoluteX="122dp"
         tools:layout_editor_absoluteY="185dp" />
