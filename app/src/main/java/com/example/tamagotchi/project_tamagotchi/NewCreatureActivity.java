@@ -58,6 +58,8 @@ public class NewCreatureActivity extends AppCompatActivity {
             editor.putInt("health", creature.getHealth());
             editor.putInt("hunger", creature.getHunger());
             editor.putInt("happiness", creature.getHappiness());
+            editor.putInt("ableToFeed", 0);
+            editor.putInt("ableToPlay", 0);
             editor.putBoolean("poop", false);
             editor.putLong("exitTime", 0);
             editor.apply();

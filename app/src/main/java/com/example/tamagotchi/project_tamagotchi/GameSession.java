@@ -48,6 +48,7 @@ public class GameSession extends AppCompatActivity {
     int ableToPlay;
     boolean isBusy;
     boolean poop;
+    boolean firstRun;
 
 
     @Override
@@ -57,9 +58,9 @@ public class GameSession extends AppCompatActivity {
 
         initiateStartup();
 
-        creatureDegeneration();
+        ingameStatsHandling();
 
-        goToIdle();
+        idleAnimation();
 
     }
 
@@ -80,6 +81,58 @@ public class GameSession extends AppCompatActivity {
 
     }
 
+    public void initiateStartup() {
+
+        sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+        manager = getFragmentManager();
+
+        healthBar = (ProgressBar) findViewById(R.id.healthBar);
+        hungerBar = (ProgressBar) findViewById(R.id.hungerBar);
+        happinessBar = (ProgressBar) findViewById(R.id.happinessBar);
+        levelLabel = (TextView) findViewById(R.id.levelLabel);
+        poopImage = (ImageView) findViewById(R.id.poop);
+
+        name = sharedPref.getString("name", "");
+        birthday = sharedPref.getLong("birthday", 0);
+        levelProgress = sharedPref.getLong("levelProgress", 0);
+        age = sharedPref.getInt("age", 0);
+        level = sharedPref.getInt("level", 0);
+        hunger = sharedPref.getInt("hunger", 0);
+        health = sharedPref.getInt("health", 0);
+        happiness = sharedPref.getInt("happiness", 0);
+        exitTime = sharedPref.getLong("exitTime", 0);
+        ableToFeed = sharedPref.getInt("ableToFeed", 0);
+        ableToPlay = sharedPref.getInt("ableToPlay", 0);
+        poop = sharedPref.getBoolean("poop", false);
+        startTime = System.nanoTime();
+
+        levelLabel.setText("Lvl. " + level);
+
+
+        if (health < 1) {
+            Intent intent = new Intent(this, Gameover.class);
+            startActivity(intent);
+        } else {
+
+            if (exitTime != 0) {
+
+                onStartUpStatsHandling(startTime, exitTime);
+
+            }
+
+            if (poop == true) {
+
+                poopImage.setVisibility(View.VISIBLE);
+
+            }
+
+            hungerBar.setProgress(hunger);
+            healthBar.setProgress(health);
+            happinessBar.setProgress(happiness);
+        }
+    }
+
     public void feed(View view) {
 
         try {
@@ -97,17 +150,17 @@ public class GameSession extends AppCompatActivity {
                 feedHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        goToIdle();
+                        idleAnimation();
                         isBusy = false;
                     }
                 }, 3200);
 
                 ableToFeed++;
-
                 hunger++;
 
                 hungerBar.setProgress(hunger);
 
+                editor.putInt("ableToFeed", ableToFeed);
                 editor.putInt("hunger", hunger);
                 editor.apply();
 
@@ -149,17 +202,17 @@ public class GameSession extends AppCompatActivity {
                 feedHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        goToIdle();
+                        idleAnimation();
                         isBusy = false;
                     }
                 }, 3550);
 
                 ableToPlay++;
-
                 happiness++;
 
                 happinessBar.setProgress(happiness);
 
+                editor.putInt("ableToPlay", ableToPlay);
                 editor.putInt("happiness", happiness);
                 editor.apply();
 
@@ -192,7 +245,13 @@ public class GameSession extends AppCompatActivity {
         editor.apply();
     }
 
-    public void goToIdle() {
+    public void showGameOverScreen() {
+
+        Intent intent = new Intent(this, Gameover.class);
+        startActivity(intent);
+    }
+
+    public void idleAnimation() {
 
         try {
 
@@ -208,63 +267,14 @@ public class GameSession extends AppCompatActivity {
 
     }
 
-    public void initiateStartup() {
-
-        sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
-        manager = getFragmentManager();
-
-
-        healthBar = (ProgressBar) findViewById(R.id.healthBar);
-        hungerBar = (ProgressBar) findViewById(R.id.hungerBar);
-        happinessBar = (ProgressBar) findViewById(R.id.happinessBar);
-        levelLabel = (TextView) findViewById(R.id.levelLabel);
-        poopImage = (ImageView) findViewById(R.id.poop);
-
-        name = sharedPref.getString("name", "");
-        birthday = sharedPref.getLong("birthday", 0);
-        levelProgress = sharedPref.getLong("levelProgress", 0);
-        age = sharedPref.getInt("age", 0);
-        level = sharedPref.getInt("level", 0);
-        hunger = sharedPref.getInt("hunger", 0);
-        health = sharedPref.getInt("health", 0);
-        happiness = sharedPref.getInt("happiness", 0);
-        exitTime = sharedPref.getLong("exitTime", 0);
-        poop = sharedPref.getBoolean("poop", false);
-        startTime = System.nanoTime();
-
-        levelLabel.setText("Lvl. " + level);
-
-
-        if (health < 1) {
-            Intent intent = new Intent(this, Gameover.class);
-            startActivity(intent);
-        } else {
-
-            if (exitTime != 0) {
-
-                calculateDegeneration(startTime, exitTime);
-
-            }
-
-            if (poop == true) {
-
-                poopImage.setVisibility(View.VISIBLE);
-
-            }
-
-            hungerBar.setProgress(hunger);
-            healthBar.setProgress(health);
-            happinessBar.setProgress(happiness);
-        }
-    }
-
-    public void creatureDegeneration() {
+    public void ingameStatsHandling() {
 
         final Handler degenerationHandler = new Handler();
         final Timer timer = new Timer();
 
         final TimerTask timerTask = new TimerTask() {
+
+            boolean firstRun = true;
 
             @Override
             public void run() {
@@ -283,72 +293,141 @@ public class GameSession extends AppCompatActivity {
 
                         try {
 
-                            if (hunger == 20) {
-                                poop = true;
-                                poopImage.setVisibility(View.VISIBLE);
-                                editor.putBoolean("poop", poop);
+                            if (firstRun == true) {
+
+                                long timeDifference = startTime - exitTime;
+
+                                //Convert nanoseconds to seconds
+                                timeDifference = timeDifference / 1000000000;
+
+                                //Convert seconds to minutes
+                                timeDifference = timeDifference / 180;
+
+                                if (timeDifference >= 1) {
+
+                                    if (hunger == 20) {
+                                        poop = true;
+                                        poopImage.setVisibility(View.VISIBLE);
+                                        editor.putBoolean("poop", poop);
+                                    }
+
+                                    if (health > 0) {
+
+                                        if (health < 20 && hunger > 14) {
+
+                                            health++;
+
+                                        }
+
+                                        if (hunger == 0 && happiness == 0) {
+
+                                            health = health - 2;
+
+                                        } else if (hunger == 0) {
+
+                                            health--;
+
+                                        }
+
+                                        if (happiness > 0 && poop == false) {
+
+                                            happiness--;
+
+                                        } else if (happiness > 0 && poop == true) {
+
+                                            happiness = happiness - 2;
+
+                                        }
+
+                                        if (hunger > 0) {
+
+                                            hunger--;
+
+                                        }
+
+                                    }
+
+                                    ableToFeed = 0;
+                                    ableToPlay = 0;
+
+                                    firstRun = false;
+
+                                }
+
+                            } else {
+
+                                if (hunger == 20) {
+                                    poop = true;
+                                    poopImage.setVisibility(View.VISIBLE);
+                                    editor.putBoolean("poop", poop);
+                                }
+
+                                if (health > 0) {
+
+                                    if (health < 20 && hunger > 14) {
+
+                                        health++;
+
+                                    }
+
+                                    if (hunger == 0 && happiness == 0) {
+
+                                        health = health - 2;
+
+                                    } else if (hunger == 0) {
+
+                                        health--;
+
+                                    }
+
+                                    if (happiness > 0 && poop == false) {
+
+                                        happiness--;
+
+                                    } else if (happiness > 0 && poop == true) {
+
+                                        happiness = happiness - 2;
+
+                                    }
+
+                                    if (hunger > 0) {
+
+                                        hunger--;
+
+                                    }
+
+                                }
+
+                                ableToFeed = 0;
+                                ableToPlay = 0;
+
                             }
-
-                            if (health > 0) {
-
-                                if (health < 20 && hunger > 14) {
-
-                                    health++;
-
-                                }
-
-                                if (hunger == 0 && happiness == 0) {
-
-                                    health = health - 2;
-
-                                } else if (hunger == 0) {
-
-                                    health--;
-
-                                }
-
-                                if (happiness > 0 && poop == false) {
-
-                                    happiness--;
-
-                                } else if (happiness > 0 && poop == true) {
-
-                                    happiness = happiness - 2;
-
-                                }
-
-                                if (hunger > 0) {
-
-                                    hunger--;
-
-                                }
-
-                            }
-
-                            ableToFeed = 0;
-                            ableToPlay = 0;
 
                             healthBar.setProgress(health);
                             hungerBar.setProgress(hunger);
                             happinessBar.setProgress(happiness);
 
+                            editor.putInt("ableToPlay", ableToPlay);
+                            editor.putInt("ableToFeed", ableToFeed);
                             editor.putInt("hunger", hunger);
                             editor.putInt("happiness", happiness);
                             editor.putInt("health", health);
                             editor.apply();
 
                         } catch (Exception e) {
-                            System.out.println("Error in degeneration.");
+                            // Catch errors.
                         }
                     }
                 });
             }
         };
-        timer.schedule(timerTask, 0, 25000);
-
+        timer.schedule(timerTask, 0, 180000);
     }
 
-    public void calculateDegeneration(long startTime, long exitTime) {
+
+    public void onStartUpStatsHandling(long startTime, long exitTime) {
+
+        firstRun = true;
 
         long timeDifference = startTime - exitTime;
 
@@ -356,10 +435,17 @@ public class GameSession extends AppCompatActivity {
         timeDifference = timeDifference / 1000000000;
 
         //Convert seconds to minutes
-        timeDifference = timeDifference / 25;
+        timeDifference = timeDifference / 180;
 
         if (hunger == 20) {
             poop = true;
+        }
+
+        if (timeDifference > 0) {
+
+            ableToPlay = 0;
+            ableToFeed = 0;
+
         }
 
         //Loop to calculate the new stats.
@@ -456,7 +542,7 @@ public class GameSession extends AppCompatActivity {
 
                 Toast toast = Toast.makeText(context, text, duration);
                 View view = toast.getView();
-                view.getBackground().setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                view.getBackground().setColorFilter(Color.rgb(255, 209, 209), PorterDuff.Mode.SRC_IN);
                 TextView textView = view.findViewById(android.R.id.message);
                 textView.setTextColor(Color.BLACK);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -467,17 +553,13 @@ public class GameSession extends AppCompatActivity {
         editor.putInt("health", health);
         editor.putInt("happiness", happiness);
         editor.putInt("hunger", hunger);
+        editor.putInt("ableToFeed", ableToFeed);
+        editor.putInt("ableToPlay", ableToPlay);
         editor.putLong("levelProgress", levelProgress);
         editor.putInt("level", level);
         editor.putBoolean("poop", poop);
         editor.apply();
 
-    }
-
-    public void showGameOverScreen() {
-
-        Intent intent = new Intent(this, Gameover.class);
-        startActivity(intent);
     }
 
 }
