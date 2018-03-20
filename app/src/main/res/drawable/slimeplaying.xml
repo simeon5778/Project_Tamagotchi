@@ -25,7 +25,7 @@
         android:duration="200"/>
     <item android:drawable="@drawable/slimeplaying_13"
         android:duration="400"/>
-    <item android:drawable="@drawable/slimeplaying_14"
+    <item android:drawable="@drawable/slimeplaying_14_2"
         android:duration="600"/>
 
 </animation-list>
